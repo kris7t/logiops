@@ -16,6 +16,7 @@
  *
  */
 
+#include "backend/raw/RawDevice.h"
 #include <Device.h>
 #include <DeviceManager.h>
 #include <features/SmartShift.h>
@@ -138,8 +139,9 @@ Device::Device(Receiver* receiver, hidpp::DeviceIndex index,
 }
 
 void Device::_init() {
-    logPrintf(INFO, "Device found: %s on %s:%d", name().c_str(),
-              hidpp20().devicePath().c_str(), _index);
+    auto bluetooth = hidpp20().rawDevice()->busType() == raw::RawDevice::BusType::Bluetooth;
+    logPrintf(INFO, "Device found: %s on %s:%d (Bluetooth: %d)", name().c_str(),
+              hidpp20().devicePath().c_str(), _index, bluetooth);
 
     {
         std::unique_lock lock(_profile_mutex);

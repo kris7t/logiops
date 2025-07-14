@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+#include "backend/raw/DeviceMonitor.h"
 #include <features/HiresScroll.h>
 #include <actions/gesture/AxisGesture.h>
 #include <Device.h>
@@ -61,11 +62,10 @@ void HiresScroll::_makeConfig() {
             config.value() = conf;
         }
         auto& conf = std::get<config::HiresScroll>(config.value());
-        if (conf.hires.has_value()) {
-            _mask |= hidpp20::HiresScroll::Mode::HiRes;
-            if (conf.hires.value())
-                _mode |= hidpp20::HiresScroll::Mode::HiRes;
-        }
+        _mask |= hidpp20::HiresScroll::Mode::HiRes;
+        if ((conf.hires.has_value() && conf.hires.value()) ||
+                _device->hidpp20().rawDevice()->busType() == raw::RawDevice::Bluetooth)
+            _mode |= hidpp20::HiresScroll::Mode::HiRes;
         if (conf.invert.has_value()) {
             _mask |= hidpp20::HiresScroll::Mode::Inverted;
             if (conf.invert.value())
