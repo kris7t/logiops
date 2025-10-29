@@ -22,6 +22,7 @@
 #include <features/SmartShift.h>
 #include <features/DPI.h>
 #include <features/RemapButton.h>
+#include <features/HapticFeedback.h>
 #include <features/HiresScroll.h>
 #include <features/DeviceStatus.h>
 #include <features/ThumbWheel.h>
@@ -153,6 +154,7 @@ void Device::_init() {
 
     _addFeature<features::DPI>("dpi");
     _addFeature<features::SmartShift>("smartshift");
+    _addFeature<features::HapticFeedback>("hapticfeedback");
     _addFeature<features::HiresScroll>("hiresscroll");
     _addFeature<features::RemapButton>("remapbutton");
     _addFeature<features::DeviceStatus>("devicestatus");
